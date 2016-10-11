@@ -1,0 +1,47 @@
+How to make your own solr instance with your own filters
+
+install solr:
+
+bin\solr create -c MyCore
+
+creates MyCore in "solr-home"\server\solr
+
+
+in MyCore: (in "solr-home"\server\solr\MyCore)
+
+directory conf exits
+make directory lib
+
+move/copy jar-file to lib
+FilterFactory
+Filter
+
+in conf
+according to manuals contains
+- solrconfig.xml
+- schema.xml
+Actually does not containt the latter but a file named managed-schema
+In fact, this file is made from schema.xml
+usually all comments are thrown out but not this first time
+copy managed-schema to schema.xml for later reference.
+If both managed-schema and schema.xml exist in conf this will give a
+warning, but the content of schema.xml is ignored!
+
+Adding your filter:
+
+Add in schema.xml or managed-schema
+
+<field name="author_tim" type="timbuctoo" indexed="true" stored="true" multiValued="true" />
+
+and
+
+    <fieldType name="timbuctoo" class="solr.TextField">
+	<analyzer type="index">
+	    <tokenizer class="solr.StandardTokenizerFactory"/>
+	    <filter class="nl.knaw.huygens.timbuctoo.lucene.analyzer.MyAccentFilterFactory" />
+	</analyzer>
+	<analyzer type="query">
+	    <tokenizer class="solr.StandardTokenizerFactory"/>
+	</analyzer>
+    </fieldType>
+
