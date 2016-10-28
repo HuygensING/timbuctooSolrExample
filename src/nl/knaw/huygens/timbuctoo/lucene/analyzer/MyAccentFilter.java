@@ -49,12 +49,14 @@ public class MyAccentFilter extends TokenFilter {
 	}
 
 	private boolean addAliasesToStack() throws IOException {
+// toString werkt niet goed voor 'lastige' utf8 of andere codes
+// oplossing lijkt te zitten in het verlengen van de result array
 		String term = termAtt.toString();
 		String termLc = term.toLowerCase();
 		if (!termLc.equals(term)) {
 			synonymStack.push(termLc); // lc met trema
 		}
-		char[] result = new char[term.length()];
+		char[] result = new char[term.length()*2];
 		ASCIIFoldingFilter.foldToASCII(term.toCharArray(), 0, result, 0, term.length());
 		String termNoAc = String.valueOf(result);
 		if (!termNoAc.equals(term)) {
