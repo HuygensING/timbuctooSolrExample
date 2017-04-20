@@ -1,4 +1,4 @@
-package nl.knaw.huygens.timbuctoo.lucene.analyzer;
+package nl.knaw.huygens.timbuctoo.lucene.accentanalyzer;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;

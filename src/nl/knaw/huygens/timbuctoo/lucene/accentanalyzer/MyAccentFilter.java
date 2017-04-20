@@ -1,4 +1,4 @@
-package nl.knaw.huygens.timbuctoo.lucene.analyzer;
+package nl.knaw.huygens.timbuctoo.lucene.accentanalyzer;
 
 import java.io.IOException;
 import java.util.Stack;
@@ -57,7 +57,20 @@ public class MyAccentFilter extends TokenFilter {
 			synonymStack.push(termLc); // lc met trema
 		}
 		char[] result = new char[term.length()*2];
-		ASCIIFoldingFilter.foldToASCII(term.toCharArray(), 0, result, 0, term.length());
+		try {
+		ASCIIFoldingFilter.foldToASCII(termAtt.buffer(), 0, result, 0, term.length());
+		} catch(Exception aioobe) {
+			System.err.println("term: |"+term+"|");
+			System.err.println("length: "+term.length());
+			System.err.println("termAtt.length: "+termAtt.length());
+			System.err.println("termAtt: "+termAtt);
+			int i = 1;
+			for(char ch : term.toCharArray()) {
+				System.err.println(i+": "+ch);
+				i++;
+			}
+			throw aioobe;
+		}
 		String termNoAc = String.valueOf(result);
 		if (!termNoAc.equals(term)) {
 			synonymStack.push(termNoAc);

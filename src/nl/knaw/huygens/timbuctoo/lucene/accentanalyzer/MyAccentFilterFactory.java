@@ -1,4 +1,4 @@
-package nl.knaw.huygens.timbuctoo.lucene.analyzer;
+package nl.knaw.huygens.timbuctoo.lucene.accentanalyzer;
 
 import java.util.Map;
 
